@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.glsx.oms.bigdata.admin.ap.navigation.mapper.NavigationMapper">
+	<resultMap id="NavAddResultMap"
+		type="com.glsx.oms.bigdata.admin.ap.navigation.model.NavAddInfo">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="USERID" jdbcType="INTEGER" property="userId" />
+		<result column="MSGID" jdbcType="INTEGER" property="msgId" />
+		<result column="LONGITUDE" jdbcType="VARCHAR" property="longItude" />
+		<result column="LATITUDE" jdbcType="VARCHAR" property="latItude" />
+		<result column="TITLE" jdbcType="VARCHAR" property="title" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="FEEDBACK" jdbcType="INTEGER" property="feedBack" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="NavAdd_Column_List">
+		ID, USERID, MSGID, LONGITUDE, LATITUDE,
+		TITLE, ADDRESS, FEEDBACK, CREATETIME, UPDATETIME
+	</sql>
+	<select id="selectNavAddList"
+		parameterType="com.glsx.oms.bigdata.admin.ap.navigation.model.NavAddInfo"
+		resultMap="NavAddResultMap">
+		select
+		<include refid="NavAdd_Column_List" />
+		from d_onekeynavigate_rsp
+		WHERE 1=1
+		<if test="userId != null">
+          and USERID=#{userId}
+        </if>
+	</select>
+	
+	<resultMap id="NavRequResultMap"
+		type="com.glsx.oms.bigdata.admin.ap.navigation.model.NavRequInfo">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="USERID" jdbcType="INTEGER" property="userId" />
+		<result column="IMSI" jdbcType="VARCHAR" property="imsi" />
+		<result column="MOBILENO" jdbcType="VARCHAR" property="MobileNo" />
+		<result column="SRCLONGITUDE" jdbcType="VARCHAR" property="srclongItude" />
+		<result column="SRCLATITUDE" jdbcType="VARCHAR" property="srclatItude" />
+		<result column="TIME" jdbcType="TIMESTAMP" property="time" />
+		<result column="MSGID" jdbcType="INTEGER" property="msgId" />
+		<result column="FEEDBACK" jdbcType="INTEGER" property="feedBack" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="STATUS" jdbcType="INTEGER" property="status" />
+	</resultMap>
+	<sql id="NavRequ_Column_List">
+		ID, USERID, IMSI, MOBILENO,
+		SRCLONGITUDE, SRCLATITUDE, TIME,
+		MSGID, FEEDBACK, CREATETIME,
+		UPDATETIME, STATUS
+	</sql>
+	<select id="selectNavRequList"
+		parameterType="com.glsx.oms.bigdata.admin.ap.navigation.model.NavRequInfo"
+		resultMap="NavRequResultMap">
+		select
+		<include refid="NavRequ_Column_List" />
+		from d_onekeynavigate_req
+		WHERE 1=1
+		<if test="userId != null">
+          and USERID=#{userId}
+        </if>
+	</select>
+</mapper>

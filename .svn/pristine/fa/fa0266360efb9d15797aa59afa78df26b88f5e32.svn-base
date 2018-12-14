@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.bigdata.admin.ap.userLog.mapper.UserLogMapper">
+  <resultMap id="UserLogResultMap" type="com.glsx.oms.bigdata.admin.ap.userLog.model.UserLog">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="USERID" jdbcType="INTEGER" property="userid" />
+    <result column="LOGTIME" jdbcType="TIMESTAMP" property="logtime" />
+    <result column="LOGTYPE" jdbcType="INTEGER" property="logtype" />
+    <result column="OFFTIME" jdbcType="TIMESTAMP" property="offtime" />
+    <result column="CURVER" jdbcType="VARCHAR" property="curver" />
+    <result column="IMSI" jdbcType="VARCHAR" property="imsi" />
+    <result column="DEVICEID" jdbcType="VARCHAR" property="deviceid" />
+    <result column="PARTNERID" jdbcType="VARCHAR" property="partnerid" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="CLIENTIP" jdbcType="VARCHAR" property="clientip" />
+    <result column="SVRIP" jdbcType="VARCHAR" property="svrip" />
+    <result column="OFFTYPE" jdbcType="INTEGER" property="offtype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, USERID, LOGTIME, LOGTYPE, OFFTIME, CURVER, IMSI, DEVICEID, PARTNERID, CREATETIME, 
+    UPDATETIME, CLIENTIP, SVRIP, OFFTYPE
+  </sql>
+  <select id="selectList" parameterType="com.glsx.oms.bigdata.admin.ap.userLog.model.UserLog" resultMap="UserLogResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from d_user_log
+  </select>
+</mapper>

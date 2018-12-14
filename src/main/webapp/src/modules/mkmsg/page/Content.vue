@@ -1,0 +1,130 @@
+<template>
+  <section>
+    <!--工具条-->
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-form :inline="true" :model="filters">
+        <el-form-item>
+          <el-input v-model="filters.appMsgId" size="small" placeholder="营销ID"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" size="small" icon="el-icon-search" v-on:click="search">搜索</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+
+    <!--列表-->
+    <template>
+      <el-table :data="table.contents" :default-sort = "{prop: 'createTime', order: 'descending'}" border highlight-current-row max-height="480" v-loading="listLoading" style="width: 100%; border-color: #DCDFE6;">
+        <el-table-column type="index" width="60">
+        </el-table-column>
+        <el-table-column prop="appMsgId" label="营销ID" width="120">
+        </el-table-column>
+        <el-table-column prop="msgType" label="消息类型" width="130" :formatter="formatType">
+        </el-table-column>
+        <el-table-column prop="msgSource" label="消息来源" width="130" :formatter="formatSource">
+        </el-table-column>
+        <el-table-column prop="msgTime" label="消息产生时间" width="140" :formatter="formatDate">
+        </el-table-column>
+        <el-table-column prop="context" :show-overflow-tooltip="true" label="消息内容">
+        </el-table-column>
+        <el-table-column prop="expire" label="过期时间" width="140" :formatter="formatDate">
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="140" :formatter="createTimeFormatDate">
+        </el-table-column>
+        <el-table-column prop="updateTime" label="修改时间" width="140" :formatter="updateTimeFormatDate">
+        </el-table-column>
+      </el-table>
+    </template>
+
+    <!--工具条-->
+    <el-col :span="24" class="toolbar" style="padding-top: 19px;">
+      <el-pagination background small
+                     layout="prev, pager, next"
+                     @current-change="handleCurrentPage"
+                     :current-page="currentPage"
+                     :page-size="pageSize"
+                     :total="this.table.total"
+                     style="float:right;">
+      </el-pagination>
+    </el-col>
+  </section>
+</template>
+<script>
+import { mapState } from 'vuex';
+import util from '../../../components/utils/js/util';
+export default {
+  data () {
+    return {
+      filters: {
+        appMsgId: ''
+      },
+      currentPage: 1,
+      pageSize: 10,
+      listLoading: true
+    };
+  },
+  computed: mapState({
+    table: state => state.mkmsg.content
+  }),
+  methods: {
+    // 消息类型 显示转换
+    formatType: function (row, column) {
+      return row.msgType === 0 ? '消息盒子' : row.msgType === 1 ? '弹框消息' : '营销条等等';
+    },
+    formatSource: function (row, column) {
+      return row.msgSource === 0 ? '系统平台' : row.msgSource === 1 ? '运营' : '未知';
+    },
+    /* handleCurrentPage (val) {
+      this.$store.dispatch('mkmsg/setContentCurrentPage', {page: val});
+      this.getList();
+    }, */
+    getList (currentPage) {
+      this.currentPage = currentPage === undefined ? 1 : currentPage;
+      let param = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+        page: this.table.page,
+        appMsgId: this.filters.appMsgId
+      };
+      console.log(param)
+      this.$store.dispatch('mkmsg/contentList', {param: param, ref: this});
+    },
+    handleCurrentPage (val) {
+      this.getList(val);
+    },
+    search () {
+      let param = {
+        currentPage: this.currentPage,
+        page: this.table.page,
+        appMsgId: this.filters.appMsgId
+      };
+      this.$store.dispatch('mkmsg/contentList', {param: param, ref: this});
+    },
+    formatDate: function (row, column) {
+      if (column) {
+        return util.formatDate.format(new Date(row[column.property]), 'yyyy-MM-dd');
+      }
+    },
+    createTimeFormatDate: function (row, column) {
+      if (row.createTime) {
+        return util.formatDate.format(new Date(row[column.property]), 'yyyy-MM-dd');
+      }
+    },
+    updateTimeFormatDate: function (row, column) {
+      if (row.updateTime) {
+        return util.formatDate.format(new Date(row[column.property]), 'yyyy-MM-dd');
+      }
+    }
+  },
+  mounted () {
+    this.getList();
+  }};
+
+</script>
+
+<style>
+  .el-tooltip__popper {
+    max-width: 400px;
+    line-height: 180%;
+  }
+</style>

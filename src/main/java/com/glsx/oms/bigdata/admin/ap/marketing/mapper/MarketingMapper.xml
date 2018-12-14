@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.bigdata.admin.ap.marketing.mapper.MarketingMapper">
+	<resultMap id="MkInboxResultMap"
+		type="com.glsx.oms.bigdata.admin.ap.marketing.model.MkInbox">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="APPMSGID" jdbcType="INTEGER" property="appMsgId" />
+		<result column="SENDER" jdbcType="INTEGER" property="sender" />
+		<result column="RECEIVER" jdbcType="INTEGER" property="receiver" />
+		<result column="STATUS" jdbcType="INTEGER" property="status" />
+		<result column="RECEIVERTIME" jdbcType="TIMESTAMP" property="receiverTime" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="BATCHNUMBER" jdbcType="VARCHAR" property="batchNumber" />
+	</resultMap>
+	<sql id="MkInbox_Column_List">
+		ID, APPMSGID, SENDER, RECEIVER, STATUS,
+		RECEIVERTIME,
+		CREATETIME, UPDATETIME,
+		BATCHNUMBER
+	</sql>
+	<select id="selectMkInboxList"
+		parameterType="com.glsx.oms.bigdata.admin.ap.marketing.model.MkInbox"
+		resultMap="MkInboxResultMap">
+		select
+		<include refid="MkInbox_Column_List" />
+		from d_mk_msg_inbox
+		WHERE 1=1
+		<if test="appMsgId != null">
+          and APPMSGID=#{appMsgId}
+        </if>
+	</select>
+
+	<resultMap id="MkContentResultMap"
+		type="com.glsx.oms.bigdata.admin.ap.marketing.model.MkContent">
+		<id column="MSGID" jdbcType="INTEGER" property="msgId" />
+		<result column="APPMSGID" jdbcType="INTEGER" property="appMsgId" />
+		<result column="MSGTYPE" jdbcType="INTEGER" property="msgType" />
+		<result column="MSDSOURCE" jdbcType="INTEGER" property="msgSource" />
+		<result column="MSGTIME" jdbcType="TIMESTAMP" property="msgTime" />
+		<result column="CONTEXT" jdbcType="VARCHAR" property="context" />
+		<result column="EXPIRE" jdbcType="TIMESTAMP" property="expire" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="MkContent_Column_List">
+		MSGID, APPMSGID, MSGTYPE, MSDSOURCE,
+		MSGTIME, CONTEXT, EXPIRE, CREATETIME,
+		UPDATETIME
+	</sql>
+	<select id="selectMkContentList"
+		parameterType="com.glsx.oms.bigdata.admin.ap.marketing.model.MkContent"
+		resultMap="MkContentResultMap">
+		select
+		<include refid="MkContent_Column_List" />
+		from d_mk_msg_content
+		WHERE 1=1
+		<if test="appMsgId != null">
+          and APPMSGID=#{appMsgId}
+        </if>
+	</select>
+</mapper>

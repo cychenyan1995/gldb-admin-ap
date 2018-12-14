@@ -1,0 +1,10 @@
+server.port=8099
+server.context-path=/gldb-admin-ap
+server.display-name=gldb-admin-ap
+logging.config=classpath:logback.xml
+logging.path=/log/oms/gldb-admin-ap/gldb-admin-ap.log
+
+# diamond config
+ore.diamond.group=gldb-admin
+ore.diamond.dataId=admin-ap
+ore.diamond.env=dev

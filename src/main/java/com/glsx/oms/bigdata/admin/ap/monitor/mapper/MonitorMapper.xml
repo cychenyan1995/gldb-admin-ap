@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glsx.oms.bigdata.admin.ap.monitor.mapper.MonitorMapper">
+
+	<select id="findAppsvr" resultType="com.glsx.oms.bigdata.admin.ap.monitor.model.Appsvr">
+		select
+		id id,
+		app_id appId,
+		app_name appName,
+		big_cmd bigCmd,
+		app_des appDes,
+		create_time createTime,
+		update_time updateTime
+		FROM
+		m_appsvr_def 
+		where 1=1
+		<if test="appId != null and appId != '' ">
+			and (app_id = #{appId})
+		</if>
+	</select>
+	
+	<select id="findMonitorSpot" resultType="com.glsx.oms.bigdata.admin.ap.monitor.model.MonitorSpot">
+		select
+		id id,
+		key_id keyId,
+		des des,
+		remark remark,
+		app_id appId,
+		c_marco cMarco,
+		create_time createTime,
+		update_time updateTime,
+		type type
+		FROM
+		m_monitor_spot_def
+		where 1=1
+		<if test="keyId != null and keyId != '' ">
+			and (key_id = #{keyId})
+		</if>
+	</select>
+	
+	<select id="findLanguage" resultType="com.glsx.oms.bigdata.admin.ap.monitor.model.Language">
+		select
+		id id,
+		lan_code lanCode,
+		lan_des lanDes
+		FROM
+		m_language_def
+		where 1=1
+		<if test="lanCode != null and lanCode != '' ">
+			and (lan_code = #{lanCode})
+		</if>
+	</select>
+	
+
+	
+</mapper>
